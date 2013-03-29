@@ -2,6 +2,7 @@
 " Version: 0.1
 " Last Modified: Mar 29, 2013
 " License: MIT
+" Url: http://www.vim.org/scripts/script.php?script_id=4493
 " Description: Bind pressing russian key in normal mode to toggle layout and
 " repeat same key.
 
