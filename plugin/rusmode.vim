@@ -13,12 +13,16 @@ let g:loaded_rusmode = 1
 let s:current_dir = expand("<sfile>:p:h")
 let s:change_input_exe = s:current_dir . '/../changeInput'
 
+if !exists('g:rusmode_normal_layout')
+    let g:rusmode_normal_layout = 'U.S.'
+endif
+
 function s:ChangeLayout(key)
-    let s:lang = system(s:changeInput_dir)
-    if s:lang == 'U.S.'
+    let l:current_layout = system(s:change_input_exe)
+    if l:current_layout ==? g:rusmode_normal_layout
         return a:key
     endif
-    call system(s:changeInput_dir . ' U.S.')
+    call system(s:change_input_exe . ' ' . g:rusmode_normal_layout)
     return a:key
 endfunction
 
