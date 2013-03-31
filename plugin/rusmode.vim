@@ -10,11 +10,16 @@ if exists('g:loaded_rusmode') || &cp || version < 700
 	finish
 endif
 let g:loaded_rusmode = 1
+
 let s:current_dir = expand("<sfile>:p:h")
 let s:change_input_exe = s:current_dir . '/../changeInput'
 
 if !exists('g:rusmode_normal_layout')
     let g:rusmode_normal_layout = 'U.S.'
+endif
+
+if !exists('g:rusmode_autotoggle_insertleave')
+    let g:rusmode_autotoggle_insertleave = 0
 endif
 
 function s:ChangeLayout(key)
@@ -25,6 +30,10 @@ function s:ChangeLayout(key)
     call system(s:change_input_exe . ' ' . g:rusmode_normal_layout)
     return a:key
 endfunction
+
+if g:rusmode_autotoggle_insertleave
+    autocmd InsertLeave * call s:ChangeLayout("\<ESC>")
+endif
 
 nmap <expr> <unique> ё <SID>ChangeLayout('§')
 nmap <expr> <unique> й <SID>ChangeLayout('q')
