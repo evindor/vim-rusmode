@@ -1,7 +1,7 @@
 " Maintainer: Arseny Zarechnev <cyanidesign@gmail.com>
-" Version: 0.1
-" Last Modified: Mar 29, 2013
-" License: MIT
+" Version: 0.2
+" Last Modified: Mar 31, 2013
+" License: Public domain.
 " Url: http://www.vim.org/scripts/script.php?script_id=4493
 " Description: Bind pressing russian key in normal mode to toggle layout and
 " repeat same key.
@@ -10,80 +10,81 @@ if exists('g:loaded_rusmode') || &cp || version < 700
 	finish
 endif
 let g:loaded_rusmode = 1
+let s:current_dir = expand("<sfile>:p:h")
+let s:change_input_exe = s:current_dir . '/../changeInput'
 
-
-function ChangeLayout(key)
-    call system('osascript -e "tell application \"System Events\" to key code 49 using command down"')
-    if a:key ==? ':'
-        execute("normal! \<esc>:")
-    else
-        execute("normal!" . a:key)
+function s:ChangeLayout(key)
+    let s:lang = system(s:changeInput_dir)
+    if s:lang == 'U.S.'
+        return a:key
     endif
+    call system(s:changeInput_dir . ' U.S.')
+    return a:key
 endfunction
 
-nmap <silent> <unique> ё :call ChangeLayout('§')<CR>
-nmap <silent> <unique> й :call ChangeLayout('q')<CR>
-nmap <silent> <unique> ц :call ChangeLayout('w')<CR>
-nmap <silent> <unique> у :call ChangeLayout('e')<CR>
-nmap <silent> <unique> к :call ChangeLayout('r')<CR>
-nmap <silent> <unique> е :call ChangeLayout('t')<CR>
-nmap <silent> <unique> н :call ChangeLayout('y')<CR>
-nmap <silent> <unique> г :call ChangeLayout('u')<CR>
-nmap <silent> <unique> ш :call ChangeLayout('i')<CR>
-nmap <silent> <unique> щ :call ChangeLayout('o')<CR>
-nmap <silent> <unique> з :call ChangeLayout('p')<CR>
-nmap <silent> <unique> х :call ChangeLayout('[')<CR>
-nmap <silent> <unique> ъ :call ChangeLayout(']')<CR>
-nmap <silent> <unique> ф :call ChangeLayout('a')<CR>
-nmap <silent> <unique> ы :call ChangeLayout('s')<CR>
-nmap <silent> <unique> в :call ChangeLayout('d')<CR>
-nmap <silent> <unique> а :call ChangeLayout('f')<CR>
-nmap <silent> <unique> п :call ChangeLayout('g')<CR>
-nmap <silent> <unique> р :call ChangeLayout('h')<CR>
-nmap <silent> <unique> о :call ChangeLayout('j')<CR>
-nmap <silent> <unique> л :call ChangeLayout('k')<CR>
-nmap <silent> <unique> д :call ChangeLayout('l')<CR>
-nmap <silent> <unique> ж :call ChangeLayout(';')<CR>
-nmap <silent> <unique> э :call ChangeLayout("'")<CR>
-nmap <silent> <unique> я :call ChangeLayout('z')<CR>
-nmap <silent> <unique> ч :call ChangeLayout('x')<CR>
-nmap <silent> <unique> с :call ChangeLayout('c')<CR>
-nmap <silent> <unique> м :call ChangeLayout('v')<CR>
-nmap <silent> <unique> и :call ChangeLayout('b')<CR>
-nmap <silent> <unique> т :call ChangeLayout('n')<CR>
-nmap <silent> <unique> ь :call ChangeLayout('m')<CR>
-nmap <silent> <unique> б :call ChangeLayout(',')<CR>
-nmap <silent> <unique> ю :call ChangeLayout('.')<CR>
-nmap <silent> <unique> Ё :call ChangeLayout('±')<CR>
-nmap <silent> <unique> Й :call ChangeLayout('Q')<CR>
-nmap <silent> <unique> Ц :call ChangeLayout('W')<CR>
-nmap <silent> <unique> У :call ChangeLayout('E')<CR>
-nmap <silent> <unique> К :call ChangeLayout('R')<CR>
-nmap <silent> <unique> Е :call ChangeLayout('T')<CR>
-nmap <silent> <unique> Н :call ChangeLayout('Y')<CR>
-nmap <silent> <unique> Г :call ChangeLayout('U')<CR>
-nmap <silent> <unique> Ш :call ChangeLayout('I')<CR>
-nmap <silent> <unique> Щ :call ChangeLayout('O')<CR>
-nmap <silent> <unique> З :call ChangeLayout('P')<CR>
-nmap <silent> <unique> Х :call ChangeLayout('{')<CR>
-nmap <silent> <unique> Ъ :call ChangeLayout('}')<CR>
-nmap <silent> <unique> Ф :call ChangeLayout('A')<CR>
-nmap <silent> <unique> Ы :call ChangeLayout('S')<CR>
-nmap <silent> <unique> В :call ChangeLayout('D')<CR>
-nmap <silent> <unique> А :call ChangeLayout('F')<CR>
-nmap <silent> <unique> П :call ChangeLayout('G')<CR>
-nmap <silent> <unique> Р :call ChangeLayout('H')<CR>
-nmap <silent> <unique> О :call ChangeLayout('J')<CR>
-nmap <silent> <unique> Л :call ChangeLayout('K')<CR>
-nmap <silent> <unique> Д :call ChangeLayout('L')<CR>
-nmap <unique> Ж :call ChangeLayout(':')<CR>:
-nmap <silent> <unique> Э :call ChangeLayout('"')<CR>
-nmap <silent> <unique> Я :call ChangeLayout('Z')<CR>
-nmap <silent> <unique> Ч :call ChangeLayout('X')<CR>
-nmap <silent> <unique> С :call ChangeLayout('C')<CR>
-nmap <silent> <unique> М :call ChangeLayout('V')<CR>
-nmap <silent> <unique> И :call ChangeLayout('B')<CR>
-nmap <silent> <unique> Т :call ChangeLayout('N')<CR>
-nmap <silent> <unique> Ь :call ChangeLayout('M')<CR>
-nmap <silent> <unique> Б :call ChangeLayout('<')<CR>
-nmap <silent> <unique> Ю :call ChangeLayout('>')<CR>
+nmap <expr> <unique> ё <SID>ChangeLayout('§')
+nmap <expr> <unique> й <SID>ChangeLayout('q')
+nmap <expr> <unique> ц <SID>ChangeLayout('w')
+nmap <expr> <unique> у <SID>ChangeLayout('e')
+nmap <expr> <unique> к <SID>ChangeLayout('r')
+nmap <expr> <unique> е <SID>ChangeLayout('t')
+nmap <expr> <unique> н <SID>ChangeLayout('y')
+nmap <expr> <unique> г <SID>ChangeLayout('u')
+nmap <expr> <unique> ш <SID>ChangeLayout('i')
+nmap <expr> <unique> щ <SID>ChangeLayout('o')
+nmap <expr> <unique> з <SID>ChangeLayout('p')
+nmap <expr> <unique> х <SID>ChangeLayout('[')
+nmap <expr> <unique> ъ <SID>ChangeLayout(']')
+nmap <expr> <unique> ф <SID>ChangeLayout('a')
+nmap <expr> <unique> ы <SID>ChangeLayout('s')
+nmap <expr> <unique> в <SID>ChangeLayout('d')
+nmap <expr> <unique> а <SID>ChangeLayout('f')
+nmap <expr> <unique> п <SID>ChangeLayout('g')
+nmap <expr> <unique> р <SID>ChangeLayout('h')
+nmap <expr> <unique> о <SID>ChangeLayout('j')
+nmap <expr> <unique> л <SID>ChangeLayout('k')
+nmap <expr> <unique> д <SID>ChangeLayout('l')
+nmap <expr> <unique> ж <SID>ChangeLayout(';')
+nmap <expr> <unique> э <SID>ChangeLayout("'")
+nmap <expr> <unique> я <SID>ChangeLayout('z')
+nmap <expr> <unique> ч <SID>ChangeLayout('x')
+nmap <expr> <unique> с <SID>ChangeLayout('c')
+nmap <expr> <unique> м <SID>ChangeLayout('v')
+nmap <expr> <unique> и <SID>ChangeLayout('b')
+nmap <expr> <unique> т <SID>ChangeLayout('n')
+nmap <expr> <unique> ь <SID>ChangeLayout('m')
+nmap <expr> <unique> б <SID>ChangeLayout(',')
+nmap <expr> <unique> ю <SID>ChangeLayout('.')
+nmap <expr> <unique> Ё <SID>ChangeLayout('±')
+nmap <expr> <unique> Й <SID>ChangeLayout('Q')
+nmap <expr> <unique> Ц <SID>ChangeLayout('W')
+nmap <expr> <unique> У <SID>ChangeLayout('E')
+nmap <expr> <unique> К <SID>ChangeLayout('R')
+nmap <expr> <unique> Е <SID>ChangeLayout('T')
+nmap <expr> <unique> Н <SID>ChangeLayout('Y')
+nmap <expr> <unique> Г <SID>ChangeLayout('U')
+nmap <expr> <unique> Ш <SID>ChangeLayout('I')
+nmap <expr> <unique> Щ <SID>ChangeLayout('O')
+nmap <expr> <unique> З <SID>ChangeLayout('P')
+nmap <expr> <unique> Х <SID>ChangeLayout('{')
+nmap <expr> <unique> Ъ <SID>ChangeLayout('}')
+nmap <expr> <unique> Ф <SID>ChangeLayout('A')
+nmap <expr> <unique> Ы <SID>ChangeLayout('S')
+nmap <expr> <unique> В <SID>ChangeLayout('D')
+nmap <expr> <unique> А <SID>ChangeLayout('F')
+nmap <expr> <unique> П <SID>ChangeLayout('G')
+nmap <expr> <unique> Р <SID>ChangeLayout('H')
+nmap <expr> <unique> О <SID>ChangeLayout('J')
+nmap <expr> <unique> Л <SID>ChangeLayout('K')
+nmap <expr> <unique> Д <SID>ChangeLayout('L')
+nmap <expr> <unique> Ж <SID>ChangeLayout(':')
+nmap <expr> <unique> Э <SID>ChangeLayout('"')
+nmap <expr> <unique> Я <SID>ChangeLayout('Z')
+nmap <expr> <unique> Ч <SID>ChangeLayout('X')
+nmap <expr> <unique> С <SID>ChangeLayout('C')
+nmap <expr> <unique> М <SID>ChangeLayout('V')
+nmap <expr> <unique> И <SID>ChangeLayout('B')
+nmap <expr> <unique> Т <SID>ChangeLayout('N')
+nmap <expr> <unique> Ь <SID>ChangeLayout('M')
+nmap <expr> <unique> Б <SID>ChangeLayout('<')
+nmap <expr> <unique> Ю <SID>ChangeLayout('>')
