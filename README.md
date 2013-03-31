@@ -6,6 +6,7 @@ Rusmode.vim
 When you press russian key in normal mode this script will change your system layout and repeat same key press in appropriate language.
 
 Settings:
+
 Set layout to switch to. Defaults to 'U.S.'.
 ```vimscript
 let g:rusmode_normal_layout='U.S.'
