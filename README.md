@@ -25,7 +25,7 @@ Install with Vundle or Pathogen.
 
 **Linux users** need to provide correct commands to get and set current layout:
 ```vimscript
-let g:rusmode_get_layout_command = 'setxkbmap -print | grep xkb_symbols | awk -F"+" "{print $2}"'
+let g:rusmode_get_layout_command = 'setxkbmap -print | grep xkb_symbols | awk \'{split($0,arr,"+")} END{print arr[2]}\''
 let g:rusmode_set_layout_command = 'setxkbmap -option "grp:ctrl_shift_toggle,grp_led:scroll" -layout "us,ru"'
-let g:rusmode_normal_layout=''
+let g:rusmode_normal_layout='us'
 ```
