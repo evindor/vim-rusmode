@@ -1,6 +1,6 @@
 " Maintainer: Arseny Zarechnev <cyanidesign@gmail.com>
-" Version: 0.2
-" Last Modified: Mar 31, 2013
+" Version: 0.3
+" Last Modified: Apr 2, 2013
 " License: Public domain.
 " Url: http://www.vim.org/scripts/script.php?script_id=4493
 " Description: Bind pressing russian key in normal mode to toggle layout and
