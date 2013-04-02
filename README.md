@@ -29,3 +29,4 @@ let g:rusmode_get_layout_command = 'setxkbmap -print | grep xkb_symbols | awk \'
 let g:rusmode_set_layout_command = 'setxkbmap -option "grp:ctrl_shift_toggle,grp_led:scroll" -layout "us,ru"'
 let g:rusmode_normal_layout='us'
 ```
+The following was tested under Ubuntu 12.10
