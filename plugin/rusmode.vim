@@ -10,24 +10,41 @@ if exists('g:loaded_rusmode') || &cp || version < 700
 	finish
 endif
 let g:loaded_rusmode = 1
+let s:is_mac = substitute(system('uname'), "\n", "", "") ==? 'Darwin'
 
-let s:current_dir = expand("<sfile>:p:h")
-let s:change_input_exe = s:current_dir . '/../changeInput'
+" Check if system is not MacOS
+if !s:is_mac
+    " Must have commands for get and set layout
+    if !exists('g:rusmode_get_layout_command')
+        finish
+    endif
+
+    if !exists('g:rusmode_set_layout_command')
+        finish
+    endif
+endif
+
+if s:is_mac
+    let s:current_dir = expand("<sfile>:p:h")
+    let g:rusmode_get_layout_command = s:current_dir . '/../changeInput'
+    let g:rusmode_set_layout_command = g:rusmode_get_layout_command
+endif
 
 if !exists('g:rusmode_normal_layout')
     let g:rusmode_normal_layout = 'U.S.'
 endif
+
 
 if !exists('g:rusmode_autotoggle_insertleave')
     let g:rusmode_autotoggle_insertleave = 0
 endif
 
 function s:ChangeLayout(key)
-    let l:current_layout = system(s:change_input_exe)
+    let l:current_layout = system(g:rusmode_get_layout_command)
     if l:current_layout ==? g:rusmode_normal_layout
         return a:key
     endif
-    call system(s:change_input_exe . ' ' . g:rusmode_normal_layout)
+    call system(g:rusmode_set_layout_command . ' ' . g:rusmode_normal_layout)
     return a:key
 endfunction
 
