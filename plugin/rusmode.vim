@@ -40,9 +40,15 @@ if !exists('g:rusmode_autotoggle_insertleave')
 endif
 
 function s:ChangeLayout(key)
-    let l:current_layout = system(g:rusmode_get_layout_command)
+    let l:current_layout = substitute(system(g:rusmode_get_layout_command), "\n", "", "")
     if l:current_layout ==? g:rusmode_normal_layout
-        return a:key
+        if a:key ==? '/'
+            return '.'
+        elseif a:key ==? '?'
+            return ','
+        else
+            return a:key
+        endif
     endif
     call system(g:rusmode_set_layout_command . ' ' . g:rusmode_normal_layout)
     return a:key
@@ -118,3 +124,5 @@ nmap <expr> <unique> Т <SID>ChangeLayout('N')
 nmap <expr> <unique> Ь <SID>ChangeLayout('M')
 nmap <expr> <unique> Б <SID>ChangeLayout('<')
 nmap <expr> <unique> Ю <SID>ChangeLayout('>')
+nmap <expr> <unique> . <SID>ChangeLayout('/')
+nmap <expr> <unique> , <SID>ChangeLayout('?')
